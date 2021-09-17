@@ -7,13 +7,17 @@ describe("socket.io basics", () => {
 
   beforeAll((done) => {
     const httpServer = createServer();
-    io = new Server(httpServer);
+    
     httpServer.listen(() => {
-      const port = httpServer.address().port;
-      clientSocket = new Client(`http://localhost:${port}`);
+      // set up socket server
+      io = new Server(httpServer);
       io.on("connection", (socket) => {
         serverSocket = socket;
       });
+      
+      // set up socket client
+      const port = httpServer.address().port;
+      clientSocket = new Client(`http://localhost:${port}`);
       clientSocket.on("connect", done);
     });
   });
@@ -23,18 +27,20 @@ describe("socket.io basics", () => {
     clientSocket.close();
   });
 
-  test("should work", (done) => {
+  test("client should receive the right message", (done) => {
     clientSocket.on("hello", (arg) => {
       expect(arg).toBe("world");
       done();
     });
+
     serverSocket.emit("hello", "world");
   });
 
-  test("should work (with ack)", (done) => {
+  test("server should answer", (done) => {
     serverSocket.on("hi", (cb) => {
       cb("hola");
     });
+
     clientSocket.emit("hi", (arg) => {
       expect(arg).toBe("hola");
       done();
