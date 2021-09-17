@@ -7,24 +7,24 @@ describe("socket.io with two clients", () => {
   let io;
   let httpServer;
 
-  beforeEach((done) => {
+  beforeEach(async () => {
     httpServer = createServer();
 
-    httpServer.listen(() => {
-      io = new Server(httpServer);
-      const httpServerPort = httpServer.address().port;
+    await new Promise((resolve) => httpServer.listen(resolve));
 
-      // set up first socket client
-      clientSockets = Array.from({ length: 2 }).map(
-        () => new Client(`http://localhost:${httpServerPort}`)
-      );
+    io = new Server(httpServer);
+    const httpServerPort = httpServer.address().port;
 
-      const connections = clientSockets.map(
-        (clientSocket) => new Promise((res) => clientSocket.on("connect", res))
-      );
+    // set up first socket client
+    clientSockets = Array.from({ length: 2 }).map(
+      () => new Client(`http://localhost:${httpServerPort}`)
+    );
 
-      Promise.all(connections).then(() => done());
-    });
+    const connections = clientSockets.map(
+      (clientSocket) => new Promise((res) => clientSocket.on("connect", res))
+    );
+
+    await Promise.all(connections);
   });
 
   afterEach(() => {
@@ -36,11 +36,7 @@ describe("socket.io with two clients", () => {
   test("server should broadcast to both clients", (done) => {
     const promises = clientSockets.map(
       (clientSocket) =>
-        new Promise((res) => {
-          clientSocket.on("hello", (arg) => {
-            res(arg);
-          });
-        })
+        new Promise((res) => clientSocket.on("hello", (arg) => res(arg)))
     );
 
     io.emit("hello", "world");
