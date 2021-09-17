@@ -32,24 +32,23 @@ describe("socket.io basics", () => {
     httpServer.close();
   });
 
-  test("client should receive the right message", (done) => {
-    clientSocket.on("hello", (arg) => {
-      expect(arg).toBe("world");
-      done();
-    });
+  test("client should receive the right message", async () => {
+    const message = new Promise((res) =>
+      clientSocket.on("hello", (arg) => res(arg))
+    );
 
     serverSocket.emit("hello", "world");
+
+    expect(await message).toBe("world");
   });
 
-  test("server should answer", (done) => {
-    serverSocket.on("hi", (cb) => {
-      cb("hola");
-    });
+  test("server should answer", async () => {
+    serverSocket.on("hi", (cb) => cb("hola"));
 
-    clientSocket.emit("hi", (arg) => {
-      expect(arg).toBe("hola");
-      done();
-    });
+    const answer = new Promise((res) =>
+      clientSocket.emit("hi", (arg) => res(arg))
+    );
+
+    expect(await answer).toBe("hola");
   });
 });
-
