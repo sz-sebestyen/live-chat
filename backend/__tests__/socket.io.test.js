@@ -2,28 +2,41 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const Client = require("socket.io-client");
 
-describe("socket.io basics", () => {
-  let io, serverSocket, clientSocket;
+const httpServer = createServer();
+const io = new Server(httpServer);
 
-  beforeAll((done) => {
-    const httpServer = createServer();
-    
-    httpServer.listen(() => {
-      // set up socket server
-      io = new Server(httpServer);
-      io.on("connection", (socket) => {
-        serverSocket = socket;
-      });
-      
-      // set up socket client
-      const port = httpServer.address().port;
-      clientSocket = new Client(`http://localhost:${port}`);
-      clientSocket.on("connect", done);
+let serverSocket;
+let httpServerPort;
+
+beforeAll((done) => {
+  httpServer.listen(() => {
+    httpServerPort = httpServer.address().port;
+
+    // set up socket server
+    io.on("connection", (socket) => {
+      serverSocket = socket;
     });
+
+    done();
+  });
+});
+
+afterAll(() => {
+  io.close();
+  httpServer.close();
+});
+
+
+describe("socket.io basics", () => {
+  let clientSocket;
+
+  beforeEach((done) => {
+    // set up socket client
+    clientSocket = new Client(`http://localhost:${httpServerPort}`);
+    clientSocket.on("connect", done);
   });
 
-  afterAll(() => {
-    io.close();
+  afterEach(() => {
     clientSocket.close();
   });
 
