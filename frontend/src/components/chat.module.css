@@ -1,2 +1,5 @@
 .chat {
+  display: grid;
+  grid-template-rows: auto min-content;
+  height: 100%;
 }
