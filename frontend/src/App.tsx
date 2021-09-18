@@ -11,7 +11,7 @@ interface Action {
 
 const reducer: Reducer<string[], Action> = function (state: string[] | undefined = ["asd"], action: Action): string[] {
   switch (action.type) {
-  case "ADD":
+  case "messages/push":
     return [...state, action.payload];
   default:
     return state;
