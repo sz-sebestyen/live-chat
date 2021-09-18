@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { createStore } from "redux";
 import type { Reducer } from "redux";
-import { Provider, connect } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 
 interface Action {
   type: string,
@@ -20,21 +20,20 @@ const reducer: Reducer<string[], Action> = function (state: string[] | undefined
 
 const store = createStore(reducer);
 
-const Component = (props: any) => <h1>Helloworld {props.messages[0]}!</h1>;
+const Component = () => {
+  const messages = useSelector((state: string[]): string[] => {
+    return state;
+  });
 
-const mapStateToProps = (state: string[]) => {
-  return {
-    messages: state
-  };
+  return<h1>Helloworld {messages[0]}!</h1>;
 };
 
-const Container = connect(mapStateToProps)(Component);
 
 function App(): JSX.Element {
   return (
     <div className="App">
       <Provider store={store}>
-        <Container />
+        <Component />
       </Provider>
     </div>
   );
