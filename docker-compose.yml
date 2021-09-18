@@ -18,6 +18,16 @@ services:
     volumes:
       - ./backend:/app/
 
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.test
+      args:
+        WORKDIR: /app
+    image: ${DOCKER_USERNAME}/live-chat-backend-test
+    volumes:
+      - ./backend:/app/
+
   frontend:
     build:
       context: ./frontend
