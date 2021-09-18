@@ -5,20 +5,57 @@ import { createStore } from "redux";
 import type { Reducer } from "redux";
 import { Provider, useSelector } from "react-redux";
 
-interface Action {
-  type: string,
-  payload: string
+interface Message {
+  id: string;
+  body: string;
 }
 
-const reducer: Reducer<string[], Action> = function (
-  state: string[] | undefined = ["asd"],
-  action: Action = { type: "", payload: ""}
-): string[] {
+interface Action {
+  type: string;
+  payload: Message;
+}
+
+interface State {
+  messages: {
+    byId: {
+      [key: string]: string;
+    },
+    ids: string[];
+  }
+}
+
+const defaultState = {
+  messages: {
+    byId: {
+      123: "asd",
+    },
+    ids: ["123"],
+  }
+};
+
+const defaultMessage = {
+  id: "123",
+  body: "asd",
+};
+
+const reducer: Reducer<State, Action> = function (
+  state: State | undefined = defaultState,
+  action: Action = { type: "", payload: defaultMessage }
+): State {
   switch (action.type) {
   case "messages/push":
-    return [...state, action.payload];
+    return {
+      ...state,
+      messages: {
+        byId: {
+          ...state.messages.byId,
+          [action.payload.id]: action.payload.body,
+        },
+        ids: [...state.messages.ids, action.payload.id]
+      }
+    };
   case "messages/clear":
-    return [];
+    return defaultState;
   default:
     return state;
   }
@@ -27,11 +64,11 @@ const reducer: Reducer<string[], Action> = function (
 const store = createStore(reducer);
 
 const Component = () => {
-  const messages = useSelector((state: string[]): string[] => {
-    return state;
+  const message = useSelector((state: State): string => {
+    return state.messages.byId["123"];
   });
 
-  return<h1>Helloworld {messages[0]}!</h1>;
+  return<h1>Helloworld {message}!</h1>;
 };
 
 
