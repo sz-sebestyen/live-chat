@@ -1,9 +1,12 @@
-import React from "react";
+import React, { memo } from "react";
 import css from "./chatMessage.module.css";
+import { useSelector } from "react-redux";
+import type { State } from "../store";
 
 function ChatMessage({ id }: { id: string }): JSX.Element {
-
-  const message = id;
+  const message = useSelector(
+    (state: State): string => state.messages.byId[id]
+  );
 
   return (
     <div className={css.chatMessage}>
@@ -12,4 +15,4 @@ function ChatMessage({ id }: { id: string }): JSX.Element {
   );
 }
 
-export default ChatMessage;
+export default memo(ChatMessage);
