@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import css from "./app.module.css";
 import Chat from "./components/Chat";
 import { createStore } from "redux";
 import type { Reducer } from "redux";
@@ -37,7 +37,7 @@ const Component = () => {
 
 function App(): JSX.Element {
   return (
-    <div className="App">
+    <div className={css.app}>
       <Provider store={store}>
         <Component />
         <Chat />
