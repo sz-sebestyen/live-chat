@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import Chat from "./components/Chat";
 import { createStore } from "redux";
 import type { Reducer } from "redux";
 import { Provider, useSelector } from "react-redux";
@@ -39,6 +40,7 @@ function App(): JSX.Element {
     <div className="App">
       <Provider store={store}>
         <Component />
+        <Chat />
       </Provider>
     </div>
   );
