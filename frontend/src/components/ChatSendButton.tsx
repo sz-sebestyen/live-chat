@@ -1,9 +1,12 @@
 import React from "react";
 import css from "./chatSendButton.module.css";
 
-function ChatSendButton(): JSX.Element {
+function ChatSendButton({ send }: { send: () => void }): JSX.Element {
   return (
-    <button className={css.chatSendButton}>
+    <button
+      className={css.chatSendButton}
+      onClick={send}
+    >
       Send
     </button>
   );
