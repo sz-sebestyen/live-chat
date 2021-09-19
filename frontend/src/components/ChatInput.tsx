@@ -8,15 +8,14 @@ function ChatInput({
   storeInput: (input: string) => void;
   value: string;
 }): JSX.Element {
-  const storeInput2 = (event: any) => {
-    storeInput(event?.target?.value);
-  };
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
+    storeInput(event.target.value);
 
   return (
     <input
       name="chatInput"
       className={css.chatInput}
-      onChange={storeInput2}
+      onChange={changeHandler}
       value={value}
     />
   );
