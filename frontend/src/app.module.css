@@ -4,4 +4,5 @@
   color: var(--color-text);
   min-height: 100vh;
   height: 0;
+  max-height: 100vh;
 }

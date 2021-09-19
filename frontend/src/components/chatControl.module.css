@@ -1,2 +1,8 @@
 .chatControl {
+  padding: 10px;
+  display: flex;
+}
+
+.chatControl > div:first-child {
+  flex: 1;
 }

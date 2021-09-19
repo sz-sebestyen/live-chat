@@ -3,7 +3,9 @@ import css from "./chatInput.module.css";
 
 function ChatInput(): JSX.Element {
   return (
-    <input name="chatInput" className={css.chatInput}/>
+    <div>
+      <input name="chatInput" className={css.chatInput}/>
+    </div>
   );
 }
 

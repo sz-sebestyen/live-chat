@@ -31,7 +31,7 @@ const defaultUser = { id: "1", name: "alpha" };
 
 const defaultMessage: Message = {
   id: "123",
-  body: "asd",
+  body: "asd asd asd asd asd asd asd asd asd asd asd asd asd asd ",
   userId: "1",
 };
 
@@ -45,8 +45,29 @@ const defaultNormalizedUsers: Users = {
 const defaultNormalizedMessages: Messages = {
   byId: {
     123: defaultMessage,
+    124: defaultMessage,
   },
-  ids: ["123"],
+  ids: [
+    "123",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+    "124",
+  ],
 };
 
 const users: Reducer<Users, Action<User>> = function (

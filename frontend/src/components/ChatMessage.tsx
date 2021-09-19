@@ -14,7 +14,8 @@ function ChatMessage({ id }: { id: string }): JSX.Element {
 
   return (
     <div className={css.chatMessage}>
-      {user.name}: {message.body}
+      <span className={css.userName}>{user.name}</span>
+      <span className={css.messageBody}>{": "}{message.body}</span>
     </div>
   );
 }

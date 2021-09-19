@@ -1,2 +1,17 @@
 .chatMessage {
+  text-align: left;
+  padding: 0.3em 0.6em;
+  line-height: 1.2;
+  border-radius: 0.3em;
+}
+.chatMessage:hover {
+  background-color: var(--color-bg-light);
+}
+
+.userName {
+  font-weight: bolder;
+}
+
+.messageBody {
+  font-size: 0.95em;
 }
