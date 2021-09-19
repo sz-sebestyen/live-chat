@@ -7,6 +7,17 @@ import socket from "../socket";
 function ChatControl(): JSX.Element {
   const [message, setMesage] = useState("");
   const [shouldSend, setShouldSend] = useState(false);
+  const [username, setUsername] = useState("");
+
+  const getUsername = async () => {
+    const res = await fetch("https://randomuser.me/api/?results=1");
+    const { results } = await res.json();
+    setUsername(results[0].login.username);
+  };
+
+  useEffect(() => {
+    getUsername();
+  }, []);
 
   const storeInput = (event: React.ChangeEvent<HTMLInputElement>) =>
     setMesage(event.target.value);
@@ -17,7 +28,7 @@ function ChatControl(): JSX.Element {
         body: message,
       },
       user: {
-        name: "xd",
+        name: username,
       }
     });
   };
@@ -39,8 +50,12 @@ function ChatControl(): JSX.Element {
 
   return (
     <div className={css.chatControl}>
-      <ChatInput onChange={storeInput} value={message} onKeyDown={sendIfEnter}/>
-      <ChatSendButton send={send} />
+      {username && (
+        <>
+          <ChatInput onChange={storeInput} value={message} onKeyDown={sendIfEnter} placeholder={username}/>
+          <ChatSendButton send={send} />
+        </>
+      )}
     </div>
   );
 }

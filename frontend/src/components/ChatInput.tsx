@@ -5,10 +5,12 @@ function ChatInput({
   onKeyDown,
   onChange,
   value,
+  placeholder
 }: {
-  onKeyDown: (input: React.KeyboardEvent<HTMLInputElement>) => void;
-  onChange: (input: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  onKeyDown: (input: React.KeyboardEvent<HTMLInputElement>) => void,
+  onChange: (input: React.ChangeEvent<HTMLInputElement>) => void,
+  value: string,
+  placeholder: string;
 }): JSX.Element {
   return (
     <input
@@ -18,6 +20,7 @@ function ChatInput({
       value={value}
       autoComplete="off"
       onKeyDown={onKeyDown}
+      placeholder={placeholder}
     />
   );
 }
