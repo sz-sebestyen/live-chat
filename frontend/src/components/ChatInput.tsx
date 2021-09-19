@@ -14,6 +14,7 @@ function ChatInput({
       className={css.chatInput}
       onChange={onChange}
       value={value}
+      autoComplete="off"
     />
   );
 }
