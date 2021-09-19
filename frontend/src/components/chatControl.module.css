@@ -1,8 +1,10 @@
 .chatControl {
-  padding: 10px;
+  padding: 0.6em;;
   display: flex;
+  gap: 1em;
+  border: 1px solid var(--color-bg-light);
 }
 
-.chatControl > div:first-child {
+.chatControl > input:first-child {
   flex: 1;
 }
