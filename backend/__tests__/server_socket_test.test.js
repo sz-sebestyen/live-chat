@@ -25,8 +25,15 @@ test("client1 should send message to client2", async () => {
     clientSocket2.on("message:in", (arg) => res(arg))
   );
 
-  clientSocket1.emit("message:out", "hi");
-  const message = await promise;
+  clientSocket1.emit("message:out", {
+    message: {
+      body: "hi",
+    },
+    user: {
+      name: "test",
+    },
+  });
+  const answer = await promise;
 
-  expect(message).toBe("hi");
+  expect(answer.message.body).toBe("hi");
 });

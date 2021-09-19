@@ -3,6 +3,7 @@ const express = require("express");
 require("express-async-errors");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const { uuid } = require("uuidv4");
 const { errorHandler } = require("./middlewares");
 
 const app = express();
@@ -27,8 +28,24 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("message:out", (arg) => {
-    io.emit("message:in", arg);
+  socket.data.userId = uuid();
+
+  socket.on("message:out", (payload) => {
+    // payload
+    // message: {
+    //   id: "1234",
+    //   body: message,
+    //   userId: "4321",
+    // },
+    // user: {
+    //   name: "xd",
+    //   id: "4321",
+    // }
+    payload.user.id = socket.data.userId;
+    payload.message.id = uuid();
+    payload.message.userId = socket.data.userId;
+
+    io.emit("message:in", payload);
   });
 });
 

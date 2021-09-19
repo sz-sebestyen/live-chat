@@ -14,13 +14,10 @@ function ChatControl(): JSX.Element {
   const sendMessage = () => {
     socket.emit("message:out", {
       message: {
-        id: "1234",
         body: message,
-        userId: "4321",
       },
       user: {
         name: "xd",
-        id: "4321",
       }
     });
   };
