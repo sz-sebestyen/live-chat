@@ -2,20 +2,17 @@ import React from "react";
 import css from "./chatInput.module.css";
 
 function ChatInput({
-  storeInput,
+  onChange,
   value,
 }: {
-  storeInput: (input: string) => void;
+  onChange: (input: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }): JSX.Element {
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
-    storeInput(event.target.value);
-
   return (
     <input
       name="chatInput"
       className={css.chatInput}
-      onChange={changeHandler}
+      onChange={onChange}
       value={value}
     />
   );

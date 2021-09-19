@@ -8,7 +8,8 @@ function ChatControl(): JSX.Element {
   const [message, setMesage] = useState("");
   const [shouldSend, setShouldSend] = useState(false);
 
-  const storeInput = (input: string) => setMesage(input);
+  const storeInput = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setMesage(event.target.value);
 
   const sendMessage = () => {
     socket.emit("message:out", {
@@ -32,7 +33,7 @@ function ChatControl(): JSX.Element {
 
   return (
     <div className={css.chatControl}>
-      <ChatInput storeInput={storeInput} value={message} />
+      <ChatInput onChange={storeInput} value={message} />
       <ChatSendButton send={send} />
     </div>
   );
