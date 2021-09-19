@@ -27,11 +27,6 @@ export type Normalized<T> = {
 export type Messages = Normalized<Message>;
 export type Users = Normalized<User>;
 
-export type State = {
-  messages: Messages,
-  users: Users,
-}
-
 const defaultUser = { id: "1", name: "alpha" };
 
 const defaultMessage: Message = {

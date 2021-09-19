@@ -1,15 +1,15 @@
 import React, { memo } from "react";
 import css from "./chatMessage.module.css";
 import { useSelector } from "react-redux";
-import type { State, Message, User } from "../store";
+import type { Messages, Message, Users, User } from "../store";
 
 function ChatMessage({ id }: { id: string }): JSX.Element {
   const message = useSelector(
-    (state: State): Message => state.messages.byId[id]
+    ({ messages }: { messages: Messages }): Message => messages.byId[id]
   );
 
   const user = useSelector(
-    (state: State): User => state.users.byId[message.userId]
+    ({ users }: { users: Users }): User => users.byId[message.userId]
   );
 
   return (
