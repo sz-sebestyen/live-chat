@@ -12,9 +12,12 @@ export type User = {
   name: string;
 };
 
-interface Action<T> {
+interface Action {
   type: string;
-  payload: T;
+  payload: {
+    message: Message,
+    user: User,
+  };
 }
 
 export type Normalized<T> = {
@@ -27,58 +30,33 @@ export type Normalized<T> = {
 export type Messages = Normalized<Message>;
 export type Users = Normalized<User>;
 
-const defaultUser = { id: "1", name: "alpha" };
+const defaultUser: User = { id: "", name: "" };
 
 const defaultMessage: Message = {
-  id: "123",
-  body: "asd asd asd asd asd asd asd asd asd asd asd asd asd asd ",
-  userId: "1",
+  id: "",
+  body: "",
+  userId: "",
 };
 
-const defaultNormalizedUsers: Users = {
-  byId: {
-    1: defaultUser,
-  },
-  ids: ["1"],
+const defaultPayload = {
+  message: defaultMessage,
+  user: defaultUser,
 };
 
-const defaultNormalizedMessages: Messages = {
-  byId: {
-    123: defaultMessage,
-    124: defaultMessage,
-  },
-  ids: [
-    "123",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-    "124",
-  ],
+const defaultNormalized = {
+  byId: {},
+  ids: [],
 };
 
-const users: Reducer<Users, Action<User>> = function (
-  state: Users | undefined = defaultNormalizedUsers,
-  action: Action<User> = { type: "", payload: defaultUser }
+const users: Reducer<Users, Action> = function (
+  state: Users | undefined = defaultNormalized,
+  action: Action = { type: "", payload: defaultPayload }
 ): Users {
   switch (action.type) {
-  case "users/push": {
+  case "messages/new": {
     const byId = {
       ...state.byId,
-      [action.payload.id]: action.payload,
+      [action.payload.user.id]: action.payload.user,
     };
 
     const ids = Object.keys(byId);
@@ -86,21 +64,21 @@ const users: Reducer<Users, Action<User>> = function (
     return { byId, ids };
   }
   case "users/clear":
-    return defaultNormalizedUsers;
+    return defaultNormalized;
   default:
     return state;
   }
 };
 
-const messages: Reducer<Messages, Action<Message>> = function (
-  state: Messages | undefined = defaultNormalizedMessages,
-  action: Action<Message> = { type: "", payload: defaultMessage }
+const messages: Reducer<Messages, Action> = function (
+  state: Messages | undefined = defaultNormalized,
+  action: Action = { type: "", payload: defaultPayload }
 ): Messages {
   switch (action.type) {
-  case "messages/push": {
+  case "messages/new": {
     const byId = {
       ...state.byId,
-      [action.payload.id]: action.payload,
+      [action.payload.message.id]: action.payload.message,
     };
 
     const ids = Object.keys(byId);
@@ -108,7 +86,7 @@ const messages: Reducer<Messages, Action<Message>> = function (
     return { byId, ids };
   }
   case "messages/clear":
-    return defaultNormalizedMessages;
+    return defaultNormalized;
   default:
     return state;
   }

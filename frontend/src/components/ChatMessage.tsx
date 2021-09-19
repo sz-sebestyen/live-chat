@@ -8,9 +8,19 @@ function ChatMessage({ id }: { id: string }): JSX.Element {
     ({ messages }: { messages: Messages }): Message => messages.byId[id]
   );
 
+  console.log(message);
+  
   const user = useSelector(
     ({ users }: { users: Users }): User => users.byId[message.userId]
   );
+
+  console.log(user);
+  
+  const asd = useSelector(
+    (hm: any): User => hm
+  );
+
+  console.log(asd);
 
   return (
     <div className={css.chatMessage}>

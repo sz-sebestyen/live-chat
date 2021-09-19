@@ -10,9 +10,5 @@ socket.on("connect", () => {
   console.log("socket connected");
 });
 
-socket.on("message:in", (arg) => {
-  console.log(arg);
-});
-
 export default socket;
 
