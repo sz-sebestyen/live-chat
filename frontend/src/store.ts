@@ -1,38 +1,55 @@
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
 import type { Reducer } from "redux";
 
-interface Message {
+export type Message = {
   id: string;
   body: string;
-}
+  userId: string;
+};
+
+export type User = {
+  id: string;
+  name: string;
+};
 
 interface Action {
   type: string;
   payload: Message;
 }
 
-export interface State {
-  messages: {
-    byId: {
-      [key: string]: string;
-    },
-    ids: string[];
-  }
+export type Normalized<T> = {
+  byId: {
+    [key: string]: T;
+  },
+  ids: string[];
 }
 
-const defaultState = {
-  messages: {
-    byId: {
-      123: "asd",
-      321: "dsa",
-    },
-    ids: ["123", "321"],
-  }
-};
+export type State = {
+  messages: Normalized<Message>,
+  users: Normalized<User>,
+}
 
-const defaultMessage = {
+const defaultUser = { id: "1", name: "alpha" };
+
+const defaultMessage: Message = {
   id: "123",
   body: "asd",
+  userId: "1",
+};
+
+const defaultState: State = {
+  messages: {
+    byId: {
+      123: defaultMessage,
+    },
+    ids: ["123"],
+  },
+  users: {
+    byId: {
+      1: defaultUser,
+    },
+    ids: ["1"],
+  },
 };
 
 const reducer: Reducer<State, Action> = function (
@@ -46,7 +63,7 @@ const reducer: Reducer<State, Action> = function (
       messages: {
         byId: {
           ...state.messages.byId,
-          [action.payload.id]: action.payload.body,
+          [action.payload.id]: action.payload,
         },
         ids: [...state.messages.ids, action.payload.id]
       }
