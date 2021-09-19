@@ -1,14 +1,8 @@
 import React from "react";
 import ChatMessage from "./ChatMessage";
 import css from "./chatMessageList.module.css";
-import { useSelector } from "react-redux";
-import type { Messages } from "../store";
 
-function ChatMessageList(): JSX.Element {
-  const messageIds = useSelector(
-    ({ messages }: { messages: Messages }): string[] => messages.ids
-  );
-
+function ChatMessageList({ messageIds }: { messageIds: string[] }): JSX.Element {
   return (
     <div className={css.chatMessageList}>
       {messageIds.map((id) => (
